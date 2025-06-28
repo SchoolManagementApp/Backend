@@ -27,8 +27,8 @@ class Grade extends Model
     }
 
     // Grade is given by a teacher (User)
-    public function teacher()
+    public function lecturer()
     {
-        return $this->belongsTo(Lecturer::class, 'lecturer_id');
+        return $this->belongsTo(Lecturer::class);
     }
 }

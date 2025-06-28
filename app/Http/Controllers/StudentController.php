@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Grade;
 use App\Models\Student;
+use App\Models\Lecturer;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -23,9 +24,27 @@ class StudentController extends Controller
        return [ "data" => Grade::all() ];
     }
 
-     public function getStudentsGrades(Grade $grades )
+    public function getStudentGrades($student_id) {
+        $student =Student::with(['grades.course', 'grades.lecturer'])->findOrFail($student_id);//The with(['grades.course', 'grades.lecturer']) part tells Laravel to load the student's grades, and for each grade, also load the related course and lecturer. Looks up the student by their ID using Eloquent’s findOrFail() method.If the student with that ID does not exist, Laravel will automatically return a 404 error
+        $grades = $student->grades->map([$this, 'formatGrade']);
+        return response()->json([
+            'student' => [
+                'id'         => $student->id,
+                'first_name' => $student->first_name,
+                'last_name'  => $student->last_name,
+            ],
+            'grades' => $grades,
+        ]);
+    }
+
+    public function formatGrade($grade)
     {
-        return [ "data" => $grades -> student_id ];
+        return [
+            'course'   => $grade->course->name ?? null,
+            'score'    => $grade->score,
+            'remarks'  => $grade->remarks,
+            'lecturer' => $grade->lecturer->first_name ?? null,
+        ];
     }
 
     public function index()
