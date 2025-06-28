@@ -32,30 +32,6 @@ class StudentController extends Controller
        return [ "data" => Classroom::all() ];
     }
 
-    public function getStudentGrades($student_id) {
-        $student =Student::with(['grades.course', 'grades.lecturer'])->findOrFail($student_id);//The with(['grades.course', 'grades.lecturer']) part tells Laravel to load the student's grades, and for each grade, also load the related course and lecturer. Looks up the student by their ID using Eloquent’s findOrFail() method.If the student with that ID does not exist, Laravel will automatically return a 404 error
-        $grades = $student->grades->map([$this, 'formatGrade']);
-        return response()->json([
-            'student' => [
-                'id'         => $student->id,
-                'first_name' => $student->first_name,
-                'last_name'  => $student->last_name,
-            ],
-            'grades' => $grades,
-        ]);
-    }
-
-    public function formatGrade($grade)
-    {
-        return [
-            'course'   => $grade->course->name ?? null,
-            'score'    => $grade->score,
-            'remarks'  => $grade->remarks,
-            'lecturer' => $grade->lecturer->first_name ?? null,
-        ];
-    }
-
-
     function AddNewStudent(Request $request) {
         $validator = Validator::make($request -> all(), $this -> buildRules());
 
@@ -82,6 +58,70 @@ class StudentController extends Controller
             "photo" => "nullable|image|mimes:jpeg,png|max:2048",
         ];
     }
+
+
+    public function updateStudent(Request $request, $student_id)
+    {
+        echo $student_id;
+        $student = Student::find($student_id);
+
+        if (!$student) {
+            return response()->json(['error' => 'Student not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        // For PATCH, validate only the fields present in the request
+        $rules = $this->buildRules();
+        // Only validate fields that are present in the request
+       $rules = array_intersect_key($rules, $request->all());
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $student->fill($validator->validated());
+        $student->save();
+
+        return response()->json($student, Response::HTTP_OK);
+    }
+
+    public function deleteStudent($student_id)
+    {
+        $student = Student::find($student_id);
+
+        if (!$student) {
+            return response()->json(['error' => 'Student not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $student->delete();
+
+        return response()->json(['message' => 'Student deleted successfully'], Response::HTTP_OK);
+    }
+
+    public function getStudentGrades($student_id) {
+        $student =Student::with(['grades.course', 'grades.lecturer'])->findOrFail($student_id);//The with(['grades.course', 'grades.lecturer']) part tells Laravel to load the student's grades, and for each grade, also load the related course and lecturer. Looks up the student by their ID using Eloquent’s findOrFail() method.If the student with that ID does not exist, Laravel will automatically return a 404 error
+        $grades = $student->grades->map([$this, 'formatGrade']);
+        return response()->json([
+            'student' => [
+                'id'         => $student->id,
+                'first_name' => $student->first_name,
+                'last_name'  => $student->last_name,
+            ],
+            'grades' => $grades,
+        ]);
+    }
+
+    public function formatGrade($grade)
+    {
+        return [
+            'course'   => $grade->course->name ?? null,
+            'score'    => $grade->score,
+            'remarks'  => $grade->remarks,
+            'lecturer' => $grade->lecturer->first_name ?? null,
+        ];
+    }
+
 
     public function index()
     {
