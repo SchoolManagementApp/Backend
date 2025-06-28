@@ -17,6 +17,6 @@ class Classroom extends Model
     // Classroom has many students
     public function students()
     {
-        return $this->hasMany(Student::class, 'class_id');
+        return $this->hasMany(Student::class);
     }
 }
