@@ -6,6 +6,7 @@ use App\Models\Classroom;
 use App\Models\Grade;
 use App\Models\Student;
 use App\Models\Lecturer;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
@@ -39,12 +40,21 @@ class StudentController extends Controller
             return response() -> json(["errors" => $validator -> errors()], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $student = new Student($validator -> validated());
-        $student -> save();
-
-        return $student;
+        try {
+            $student = new Student($validator->validated());
+            $student->save();
+            return $student;
+        } catch (QueryException $e) {
+            if ($e->getCode() == '23000') { // SQLSTATE code for integrity constraint violation
+                // Check if the error is specifically for the email column
+                if (strpos($e->getMessage(), 'UNIQUE constraint failed: students.email') !== false) {
+                    return response()->json(['error' => 'Student with this email already exists.'], Response::HTTP_CONFLICT);
+                }
+            }
+            // If not the expected error, rethrow or handle as general error
+            return response()->json(['error' => 'An error occurred while saving the student.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
-
 
    function buildRules() {
         return [
