@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Grade;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -11,6 +12,22 @@ class StudentController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    public function getAllStudents()
+    {
+       return [ "data" => Student::all() ];
+    }
+
+     public function getAllGrades()
+    {
+       return [ "data" => Grade::all() ];
+    }
+
+     public function getStudentsGrades(Grade $grades )
+    {
+        return [ "data" => $grades -> student_id ];
+    }
+
     public function index()
     {
         $students = Student::with(['course','grades'])->get();
