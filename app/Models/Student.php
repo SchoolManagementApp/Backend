@@ -2,25 +2,28 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+
 
 class Student extends Model
 {
-    /** @use HasFactory<\Database\Factories\StudentFactory> */
     use HasFactory, HasUuids;
-    protected $keyType = 'string';
-    public $incrementing = false;
-    protected $fillable = ["first_name", "last_name", "email", "birthday", "phone", "gender", 'course_id'];
 
-    public function course()
+    protected $fillable = [
+        'first_name', 'last_name', 'email', 'birthday', 'phone','gender', 'class_id', 'photo',
+    ];
+
+    // Student belongs to a classroom
+    public function classroom()
     {
-       return $this->belongsTo(Course::class);
+        return $this->belongsTo(Classroom::class, 'class_id');
     }
 
+    // Student has many grades
     public function grades()
     {
-        return $this->belongsTo(Grade::class);
+        return $this->hasMany(Grade::class);
     }
 }
