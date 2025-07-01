@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('courses', function (Blueprint $table) {
+        Schema::create('school_years', function (Blueprint $table) {
             $table->uuid("id") -> primary();
-            $table->string('name');
-            $table->text('description')->nullable();
+            $table->string('year_name');
+            $table->string('year_start')->nullable();
+            $table->string('year_end')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('courses');
+        Schema::dropIfExists('school_years');
     }
 };

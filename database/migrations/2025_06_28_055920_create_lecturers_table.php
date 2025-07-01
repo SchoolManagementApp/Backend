@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->enum('gender', ['male', 'female', 'other']);
-            $table->string('department')->nullable();
             $table->string('photo')->nullable();
+            $table->foreignId('department_id')->constrained('departments')->onDelete('cascade');
             $table->timestamps();
         });
     }

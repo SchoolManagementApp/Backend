@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('grades', function (Blueprint $table) {
+        Schema::create('lecturer_subjects', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('enrollement_id')->constrained('enrollements')->onDelete('cascade');
-            $table->foreignUuid('lecturer_subject_id')->constrained('lecturer_subjects')->onDelete('cascade');
-            $table->integer('score');
-            $table->text('remarks')->nullable();
+            $table->foreignUuid('lecturer_id')->constrained('lecturers')->onDelete('cascade');
+            $table->foreignUuid('subject_id')->constrained('subjects')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('grades');
+        Schema::dropIfExists('lecturer_subjects');
     }
 };
