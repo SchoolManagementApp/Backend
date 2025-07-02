@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classroom;
+use App\Models\Course;
 use App\Models\Grade;
 use App\Models\Student;
 use App\Models\Lecturer;
@@ -28,9 +29,9 @@ class StudentController extends Controller
        return [ "data" => Grade::all() ];
     }
 
-     public function getAllclassrooms()
+     public function getAllcourses()
     {
-       return [ "data" => Classroom::all() ];
+       return [ "data" => Course::all() ];
     }
 
     function AddNewStudent(Request $request) {
@@ -64,7 +65,7 @@ class StudentController extends Controller
             "birthday" => "required|date_format:Y-m-d|before:today",
             "phone" => "required|string|min:10|max:20",
             "gender" => "required|in:male,female",
-            "class_id" => "required|uuid|exists:classrooms,id",
+            "course_id" => "required|uuid|exists:courses,id",
             "photo" => "nullable|image|mimes:jpeg,png|max:2048",
         ];
     }

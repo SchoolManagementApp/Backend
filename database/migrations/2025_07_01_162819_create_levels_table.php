@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('levels', function (Blueprint $table) {
             $table->uuid("id") -> primary();
             $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
+            $table->enum('level_name', ['Bachelor', 'Master']);
             $table->integer("level_number");
             $table->timestamps();
         });
