@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Enrollement;
+use App\Models\LecturerSubject;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,9 +18,15 @@ class GradeFactory extends Factory
      */
     public function definition(): array
     {
+
+        $score = $this->faker->numberBetween(0, 100); 
+        $remarks = $score === 100 ? 'A+' :($score >= 80 ? 'A' :($score >= 65 ? 'B' :($score >= 50 ? 'C' :($score >= 35 ? 'D' :($score >= 21 ? 'F' : 'U')))));
        return [
-            'score' => $this->faker->numberBetween(0, 100),
-            'remarks' => $this->faker->optional()->sentence()
+            'id' => $this->faker->uuid(),
+            'enrollement_id' => Enrollement::inRandomOrder()->first()?->id,
+            'lecturer_subject_id' => LecturerSubject::inRandomOrder()->first()?->id,
+            'score' => $score,
+            'remarks' => $remarks
         ];
     }
 }

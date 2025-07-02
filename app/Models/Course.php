@@ -14,9 +14,21 @@ class Course extends Model
         'name', 'description',
     ];
 
-    // Course has many grades
-    public function grades()
+    // Course has many students
+    public function students()
     {
-        return $this->hasMany(Grade::class);
+        return $this->hasMany(Student::class);
+    }
+
+    // Course has many levels
+    public function levels()
+    {
+        return $this->hasMany(Level::class);
+    }
+
+    // Course is in a departmentsubjects
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
     }
 }

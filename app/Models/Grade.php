@@ -11,24 +11,19 @@ class Grade extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'student_id', 'course_id', 'lecturer_id', 'score', 'remarks',
+        'enrollement_id', 'lecturer_subject_id', 'score', 'remarks'
     ];
 
-    // Grade belongs to a student
-    public function student()
+    // Grade belongs to a enrolled student
+    public function studentEnrolled()
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(Enrollement::class);
     }
 
-    // Grade belongs to a course
-    public function course()
-    {
-        return $this->belongsTo(Course::class);
-    }
 
-    // Grade is given by a teacher (User)
-    public function lecturer()
+    // Grade belongs to a subject given by teacher (User)
+    public function lectureSubject()
     {
-        return $this->belongsTo(Lecturer::class);
+        return $this->belongsTo(LecturerSubject::class);
     }
 }

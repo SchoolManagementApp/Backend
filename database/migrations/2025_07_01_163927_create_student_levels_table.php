@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
             $table->foreignId('level_id')->constrained('levels')->onDelete('cascade');
             $table->foreignId('school_year_id')->constrained('school_years')->onDelete('cascade');
-            $table->enum('status', ['starting', 'ongoing', 'finish']);
+            $table->enum('status', ['starting', 'ongoing']);
             $table->timestamps();
         });
     }

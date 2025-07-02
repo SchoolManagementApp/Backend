@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Department;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Course>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Classroom>
  */
 class CourseFactory extends Factory
 {
@@ -16,8 +17,9 @@ class CourseFactory extends Factory
      */
     public function definition(): array
     {
-         return [
+        return [
             "id" => $this -> faker -> uuid(),
+            'department_id' => Department::inRandomOrder()->first()?->id,
             'name' => $this->faker->unique()->word(),
             'description' => $this->faker->sentence()
         ];

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Student;
+use App\Models\Subject;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,9 @@ class EnrollementFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'id' => $this->faker->uuid(),
+            'subject_id' => Subject::inRandomOrder()->first()?->id,
+            'student_id' => Student::inRandomOrder()->first()?->id
         ];
     }
 }

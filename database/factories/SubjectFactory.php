@@ -2,12 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\Level;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Classroom>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Course>
  */
-class ClassroomFactory extends Factory
+class SubjectFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -16,8 +17,9 @@ class ClassroomFactory extends Factory
      */
     public function definition(): array
     {
-        return [
+         return [
             "id" => $this -> faker -> uuid(),
+            'level_id' =>Level::inRandomOrder()->first()?->id,
             'name' => $this->faker->unique()->word(),
             'description' => $this->faker->sentence()
         ];

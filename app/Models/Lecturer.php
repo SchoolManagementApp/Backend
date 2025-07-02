@@ -12,6 +12,17 @@ class Lecturer extends Model
     use HasFactory,HasUuids;
 
    protected $fillable = [
-        'first_name', 'last_name','email','gender', 'department', 'photo',
-    ];
+        'first_name', 'last_name','email','gender', 'photo'];
+
+     // lecturer has many lecturer subjects
+    public function lecturerSubject()
+    {
+        return $this->hasMany(LecturerSubject::class);
+    }
+
+    // lecturer is in a departmentsubjects
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
 }

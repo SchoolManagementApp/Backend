@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Lecturer;
+use App\Models\Subject;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,9 @@ class LecturerSubjectFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'id' => $this->faker->uuid(),
+            'lecturer_id' => Lecturer::inRandomOrder()->first()?->id,
+            'subject_id' => Subject::inRandomOrder()->first()?->id,
         ];
     }
 }
