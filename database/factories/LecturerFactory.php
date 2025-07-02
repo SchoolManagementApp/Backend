@@ -24,7 +24,6 @@ class LecturerFactory extends Factory
             'last_name' => $this->faker->lastName(),
             'email' => $this->faker->unique()->safeEmail(),
             'gender' => $this->faker->randomElement(['male', 'female', 'other']),
-            'department' => $this->faker->word(),
             'photo' => $this->faker->imageUrl(200, 200, 'people')
         ];
     }

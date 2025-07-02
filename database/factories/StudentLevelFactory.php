@@ -23,7 +23,7 @@ class StudentLevelFactory extends Factory
             'id' => $this->faker->uuid(),
             'student_id' => Student::inRandomOrder()->first()?->id,
             'level_id' => Level::inRandomOrder()->first()?->id,
-            'year_id' => SchoolYear::inRandomOrder()->first()?->id,
+            'school_year_id' => SchoolYear::inRandomOrder()->first()?->id,
             'status' => $this->faker->randomElement(['starting', 'ongoing'])
         ];
     }

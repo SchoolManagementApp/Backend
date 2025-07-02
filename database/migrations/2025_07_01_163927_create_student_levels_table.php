@@ -12,12 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('student_levels', function (Blueprint $table) {
+            $table->uuid("id") -> primary();
             $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
             $table->foreignId('level_id')->constrained('levels')->onDelete('cascade');
             $table->foreignId('school_year_id')->constrained('school_years')->onDelete('cascade');
             $table->enum('status', ['starting', 'ongoing']);
             $table->timestamps();
         });
+
+        
     }
 
     /**

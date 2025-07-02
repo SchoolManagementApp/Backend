@@ -20,7 +20,6 @@ class LevelFactory extends Factory
         return [
             "id" => $this -> faker -> uuid(),
             'course_id' => Course::inRandomOrder()->first()?->id,
-            'name' => $this->faker->unique()->word(),
             'level_number' => $this->faker->numberBetween(1,3)
         ];
     }

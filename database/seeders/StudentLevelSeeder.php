@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\StudentLevel;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +13,6 @@ class StudentLevelSeeder extends Seeder
      */
     public function run(): void
     {
-        //Student::factory()->count(20)->create();
+        StudentLevel::factory()->count(5)->create();
     }
 }

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('school_years', function (Blueprint $table) {
             $table->uuid("id") -> primary();
             $table->string('year_name');
-            $table->string('year_start')->nullable();
-            $table->string('year_end')->nullable();
+            $table->date('year_start')->nullable();
+            $table->date('year_end')->nullable();
             $table->timestamps();
         });
     }

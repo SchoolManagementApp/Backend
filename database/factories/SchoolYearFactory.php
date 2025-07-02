@@ -27,8 +27,8 @@ class SchoolYearFactory extends Factory
 
         return [
             'year_name' => $yearName,
-            'start_date' => $startDate,
-            'end_date' => $endDate,
+            'year_start' => $startDate,
+            'year_end' => $endDate,
         ];
 
     }

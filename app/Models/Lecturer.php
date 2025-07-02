@@ -11,8 +11,7 @@ class Lecturer extends Model
     /** @use HasFactory<\Database\Factories\LecturerFactory> */
     use HasFactory,HasUuids;
 
-   protected $fillable = [
-        'first_name', 'last_name','email','gender', 'photo'];
+   protected $fillable = ['first_name', 'last_name','email','gender', 'photo'];
 
      // lecturer has many lecturer subjects
     public function lecturerSubject()
